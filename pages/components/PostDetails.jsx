@@ -3,6 +3,19 @@ import { HiCalendarDateRange } from "react-icons/hi2";
 import { IoLocationOutline } from "react-icons/io5";
 
 const PostDetails = ({ post }) => {
+  // ✅ التحقق الآمن من وجود post
+  if (!post) {
+    return (
+      <div className="h-full">
+        <div className="group relative bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-lg h-full flex flex-col">
+          <div className="relative h-64 w-full overflow-hidden bg-gray-800 flex items-center justify-center">
+            <p className="text-gray-400">No post data available</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // ✅ Universal date formatter - يشتغل مع أي field name
   const formatDate = () => {
     // جرب كل الأسماء المحتملة
@@ -20,7 +33,7 @@ const PostDetails = ({ post }) => {
     // لاقي أول field موجود
     const dateField = possibleDateFields.find((field) => field);
 
-    if (!dateField) return "No Data";
+    if (!dateField) return "No Date";
 
     // لو Firebase Timestamp
     if (dateField.seconds) {
@@ -44,7 +57,14 @@ const PostDetails = ({ post }) => {
       return "Invalid Date";
     }
   };
+
   const formattedData = formatDate();
+
+  // ✅ الحصول على القيم بشكل آمن
+  const safeImage = post?.image || "/default-image.jpg";
+  const safeTitle = post?.title || "No Title Available";
+  const safeDesc = post?.desc || "No description available";
+  const safeLocation = post?.location || "Location not specified";
 
   return (
     <div className="h-full">
@@ -52,9 +72,12 @@ const PostDetails = ({ post }) => {
         {/* Image Container - Enforcing consistent height and width */}
         <div className="relative h-64 w-full overflow-hidden bg-gray-800">
           <img
-            src={post.image}
+            src={safeImage}
             className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-            alt={post.title}
+            alt={safeTitle}
+            onError={(e) => {
+              e.target.src = "/default-image.jpg";
+            }}
           />
           <div className="absolute inset-0 bg-linear-to-t from-gray-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
@@ -62,11 +85,11 @@ const PostDetails = ({ post }) => {
         {/* Content Container */}
         <div className="p-6 flex flex-col grow">
           <h5 className="mb-3 text-xl font-bold tracking-tight text-white group-hover:text-blue-400 transition-colors line-clamp-2">
-            {post?.title}
+            {safeTitle}
           </h5>
 
           <p className="text-gray-400 mb-6 text-sm leading-relaxed line-clamp-3 grow">
-            {post?.desc}
+            {safeDesc}
           </p>
 
           <div className="space-y-3 mb-6 border-t border-gray-800 pt-4">
@@ -82,7 +105,7 @@ const PostDetails = ({ post }) => {
                 <IoLocationOutline size={18} />
               </span>
               <span className="font-medium">
-                {post?.location || "Location not specified"}
+                {safeLocation}
               </span>
             </div>
           </div>

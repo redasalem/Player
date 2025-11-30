@@ -7,6 +7,7 @@ import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import app from "@/config/firebase";
 import { useEffect, useState } from "react";
 import Posts from "./components/Posts";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,6 +64,17 @@ export default function Home() {
 
 
   return (
+     <>
+      <Head>
+        <title>Player - Share Your Posts</title>
+        <meta 
+          name="description" 
+          content="Player - منصة اجتماعية لمشاركة البوستات واللحظات المميزة. انشر واستكشف محتوى رائع مع المجتمع." 
+        />
+        <link rel="icon" href="/images/logo.png" />
+        {/* أو استخدم أيقونة emoji مباشرة */}
+        <meta name="theme-color" content="#3B82F6" />
+      </Head>
     <div>
       <Hero/>
       <Search onSearch={handleSearch}/>
@@ -70,5 +82,6 @@ export default function Home() {
       {posts?<Posts posts={posts}/>:null}
       
     </div>
+    </>
   );
 }
