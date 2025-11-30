@@ -13,12 +13,12 @@ const Posts = ({ posts }) => {
 
   return (
     <div className='flex items-center justify-center gap-2 flex-wrap mt-10'>
-      {/* ✅ استخدام posts?.length بدل posts.length */}
+      {/* ✅ استخدام posts?.length بدل posts.length
       {posts.length === 0 && (
         <div className='flex items-center justify-center h-50'>
           <h1 className='font-bold text-red-700 text-2xl'>There are no posts</h1>
         </div>
-      )}
+      )} */}
       
       {/* ✅ استخدام posts?.map للتحقق الآمن */}
       {posts.map((item, index) => (
