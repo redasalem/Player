@@ -27,7 +27,7 @@ Deployment: Vercel (recommended)
 🚀 Quick Start
 1. Clone & Install
 bash
-git clone https://github.com/your-username/player.git  
+git clone https://github.com/redasalem/player.git  
 cd player  
 npm install  
 2. Environment Setup
